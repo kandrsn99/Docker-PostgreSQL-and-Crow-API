@@ -1,0 +1,59 @@
+# Declare services
+services:
+  # Database
+  postgresql_proxy:
+    restart: always
+    build: ./postgresql_database
+    container_name: running_postgresql
+    # Declare environment variables 
+    environment:
+      POSTGRES_USER: NAME
+    #  POSTGRES_HOST: LOCALHOST
+      POSTGRES_DB: NAME
+      POSTGRES_PASSWORD: PASSWORD
+    volumes:
+      - postgres:/var/lib/postgresql/data
+      - ./postgresql_database/vehiclestable.csv:/docker-entrypoint-initdb.d/vehiclestable.csv
+    # Open and map to default 5432
+    ports:
+      - 5432:5432
+    networks:
+      - postgres-network
+  # Plumber API
+  crow_proxy:
+    # Build Dockerfile
+    build: ./crow_app
+    # Name of the container
+    container_name: running_crow
+    restart: always
+    # Map the ports where R Plumber will run on your machines infrastructure.
+    ports:
+      - 8080:8080
+    networks:
+      - postgres-network
+    depends_on:
+      - postgresql_proxy
+  # Nginx
+  nginx_proxy:
+    # Build Dockerfile
+    build: ./nginx_app
+    # Name of the container
+    container_name: running_proxy
+    restart: always
+    # Mapping ports 80 and 443 on your machines infrastructure.
+    # Typically, your port for transfer control protocol is 22/tcp is SSH, 80/tcp is HTTP, and 443/tcp is HTTPS.
+    ports:
+      - 80:80
+      - 443:443
+    networks:
+      - postgres-network
+# Interal Networks
+networks:
+  postgres-network:
+    driver: bridge
+# Storage
+volumes:
+  postgres:
+    driver: local
+  pgadmin:
+    driver: local
