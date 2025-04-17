@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="main-body">
+        <nav id="navbar">
+            <header>Documentation Menu</header>
+            <a href="#Intro" class="nav-link">
+                What is an API?</a>
+            <a href="#Endpoints" class="nav-link">
+                Endpoints</a>
+            <a href="#Development" class="nav-link">
+                Development</a>
+        </nav>
+<main id="main-doc">
+            <section class="main-section" id="Intro">
+                <header>
+                    What is an Application Programmer Interface (API)?
+                </header>
+    <p>
+        In principle, an API is a way to define endpoints of
+		    data on a server which a client may access over Hyper Text Transfer Protocols (<strong>HTTP</strong>) that we will use.
+		    Many of the most common HTTP methods we see today are <strong>GET</strong>, <strong>POST</strong>, <strong>PUT</strong>, and <strong>DELETE</strong>.
+		</p>
+		<p> 
+		    Generally, a client  will start a request and response
+		    handshake with the server via the API. A process is started
+		    which may be a request or anything that shall trigger an 
+		    external event for the API. 
+		</p>
+		<p>
+		    A server on which the API is running will handle that handshake
+		    event. The event may involve authentication, validation, retreival,
+		    deletion, updating, or manipulation of a data set.
+    </p>
+		<ul>
+		  <li>Endpoints are stand-alone user resource link (URL) to provide specific access to a resource or dataset.</li>
+		  <li>Methods indicates the operation called by the client to the API to perform an action.</li>
+		  <li>Parameters are a variable passed to the endpoint for instruction.</li>
+		  <li>Request header is a value representing details about request process, i.e. formatting of datasets or credentials.</li>
+		  <li>Body is the center piece for request and response handshake messaging. It contains the datasets of the resource or status codes.</li>
+		  <li>Response header is much like a request header, but for information about server response</li>
+		</ul>
+    <p> 
+		   It is important to note the concept of web applications today run mainly on HTTP.
+		   Moreover, HTTP protocols began in the early 1960's with the Xanadu project
+		   by Ted Nelson and his team. HTTP was further developed and standardized
+		   by a team at the European Center for Nuclear Research (CERN) by Tim Burners-Lee
+		   to promote his World Wide Web Project (WWW) in the early 1990s with his Hyper Text Markup Language
+		   (HTML) to make information available. You may read more about <a href="https://httpwg.org/specs/rfc9110.html">HTTP standards<a> at their website for specifications and documentation.
+		</p>
+		<p>
+		   Regardless, we saw further development of our ability to interact with clients and servers around the mid-1990s
+		   from Daniel Stenberg with his <a href="https://curl.se/docs/">cURL library<a>. Written in the <a href="https://isocpp.org/std/the-standard">C-langauge<a>, it is the foundation
+		   with which most of us interact with APIs across the WWW and you will find his library on just about any computer. Let us look at a basic example in your terminal by running the following
+    </p>
+		<pre>
+    <code>
+			    curl -X GET https://alpha-strike.space/api/health
+    </code>
+		</pre>
+    <p> 
+		   As long as the server is running, you should recieve a status code of 200 which respresents that everything is 'OKAY' so to speak. <br>
+		   You will see many status codes, whether interacting with an API or just loading a URL. The most important codes are the following
+    </p>
+    <ul>
+      <li>Code: 100 means progress.</li>
+      <li>Code: 200 means success.</li>
+      <li>Code: 300 means redirection, sometimes cache (temporary storage) rules.</li>
+      <li>Code: 400 means client side error.</li>
+      <li>Code: 500 means server side error.</li>
+    </ul>
+    </section>
+        <section class="main-section" id="Endpoints">
+              <header>
+                    Endpoints
+              </header>
+        <p>
+		    We shall list each endpoint and the corresponing command to retrieve information with our basis library <a href="https://curl.se/docs/">cURL<a>. Keep in mind our base url is <strong>http://localhost/api/</strong> or whatever you chose for your reference.                 
+        </p>
+        <p><b>/health</b> return the health of server<br>
+		    <pre>
+		    <code>
+			        curl -X GET https://alpha-strike.space/api/health
+        </code>
+		    </pre>
+        <br>
+        <b>/incident</b> return all incidents, or by victim/killer name and system.<br>
+		    <b>/gate</b> return all gates, or by name and system.<br>
+		    <pre>
+		    <code>
+			        curl -X POST https://alpha-strike.space/api/gate?name=STRING_HERE
+        </code>
+		    </pre>
+		    <b>/location</b> return all systems, or by id and name.<br>
+		    <pre>
+		    <code>
+			        curl -X GET https://alpha-strike.space/api/location
+        </code>
+		    </pre>
+        </section>
+        <section class="main-section" id="Development">
+                <header>
+                    Development
+                </header>
+                <p>
+		    I shamelessly promote myself, Professor Anderson, for developing many of the web development projects so that people may learn some basics of interacting with APIs, docker, and curl library. Feel free to always create an issue, fork this project, or ask to contribute to a project. Good luck, have fun!
+                </p>
+                <ul>
+                    <li><a href="https://isocpp.org/std/the-standard">Modern C++ Standards<a>, <a href="https://www.postgresql.org/">PostgreSQL<a></li>
+                    <li><a href="https://pqxx.org/development/libpqxx/#:~:text=Quick%20links:%201.%20Frequently%20Asked%20Questions">libqxx<a>, <a href="https://crowcpp.org/master/">crow<a></li>
+                    <li><a href="https://www.cloudflare.com/">Cloudflare<a>, <a href="https://nginx.org/en/">NGINX<a></li>
+                </ul>
+      </section>
+    </main>
+  </div>
+ </body>
+</html>
