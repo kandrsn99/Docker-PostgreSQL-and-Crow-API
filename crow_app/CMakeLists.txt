@@ -16,6 +16,6 @@ FetchContent_MakeAvailable(crow)
 add_executable(server server.cpp)
 # Make sure to include the directories so that we may find crow.h (your header). This a problem with docker environments for finding the crow header.
 target_include_directories(server PRIVATE ${crow_SOURCE_DIR}/include)
-# Threat support for crow.
+# Thread support for crow.
 find_package(Threads REQUIRED)
 target_link_libraries(server PRIVATE Threads::Threads)
