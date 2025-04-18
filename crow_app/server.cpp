@@ -90,11 +90,13 @@ int main() {
                     // Check the parameters every time we are called up.
                     if(first_paramater && last_parameter) {
                                 // Parse our search value name parameter.
-                                std::string searchPattern = "%" + std::string(name_parameter) + "%";
+                                std::string first_pattern = "%" + std::string(first_parameter) + "%";
+                                std::string last_pattern = "%" + std::string(last_parameter) + "%";
                                 // Prepare SQL call.
                                 res = txn.exec_params("DELETE FROM employees"
                                         " WHERE first_name ILIKE $1 AND last_name ILIKE $2;",
-                                        searchPattern
+                                        first_pattern,
+                                        last_pattern
                                         );
                     } else {
                             return crow::reponse(400, std::string("Check input!"));
