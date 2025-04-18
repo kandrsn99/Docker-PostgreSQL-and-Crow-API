@@ -19,7 +19,7 @@ services:
       - 5432:5432
     networks:
       - postgres-network
-  # Plumber API
+  # Crow API
   crow_proxy:
     # Build Dockerfile
     build: ./crow_app
@@ -33,6 +33,21 @@ services:
       - postgres-network
     depends_on:
       - postgresql_proxy
+  # pgbouncer
+  pg_bouncer:
+    # Build pgbouncer.ini with userlist.txt hashes.
+    build: ./bouncer_app
+    # Name of the container
+    container_name: running_bouncer
+    restart: always
+    # Map the correct ports.
+    ports:
+      - 6432:6432
+    # We depend upon postgresql
+    depends_on: 
+      - postgresql_proxy
+    networks:
+      - postgres-network
   # Nginx
   nginx_proxy:
     # Build Dockerfile
