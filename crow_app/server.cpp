@@ -4,11 +4,11 @@
 int main() {
     crow::SimpleApp app;
 
-    crow::Route(app, "/get_data")
+    crow::Route(app, "/employees")
     ([]() {
         try {
             // Get your connection.
-            pqxx::connection conn("dbname=mydatabase user=myuser password=mypassword host=localhost port=5432");
+            pqxx::connection conn("dbname=mydatabase user=myuser password=mypassword host=running_bouncer port=6432");
 
             pqxx::work txn(conn);
             pqxx::result res = txn.exec("SELECT id, name FROM mytable");
