@@ -5,8 +5,7 @@ RUN apt update && apt install -y \
     g++ \
     cmake \
     make \
-    git \
-    libasio-dev
+    git
 # Create a working directory and copy everything over in our current file path.
 WORKDIR /app
 COPY . .
