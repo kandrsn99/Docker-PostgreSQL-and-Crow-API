@@ -21,31 +21,121 @@ crow::json::wvalue build_json_result(const pqxx::result& res) {
 }
 // Main API proxy
 int main() {
-    crow::SimpleApp app;
-
-    crow::Route(app, "/employees").methods("GET"_method)([](const crow::request &req) -> crow::response {
-        // Test method called by user.
-        if(req.method != crow::HTTPMethod::Get) {
-            // Wrong method sent.
-            return crow::response(405);
-        }
-        // Next steps
-        try {
-            // Open connection with pgbouncer
-            pqxx::connection conn("dbname=mydatabase user=myuser password=mypassword host=running_bouncer port=6432");
-            pqxx::work txn(conn);
-            // Create our SQL query
-            pqxx::result res = txn.exec("SELECT * FROM employees ORDER BY employee_id;");
-            // Transact
-            txn.commit();
-            // Create JSON
-            crow::json::wvalue build_json_result = build_system_json(res);
-            // Dump JSON out for endpoint.
-            return crow::response(json_res.dump());
-        } catch (const std::exception& e) {
-            return crow::response(500, std::string("Error: ") + e.what());
-        }
-    });
-    // Force address and port
-    app.bindaddr("0.0.0.0").port(8080).multithreaded().run();
+        crow::SimpleApp app;
+        // Post a new employee
+        CROW_ROUTE(app, "/hire").methods("GET"_method)([](const crow::request &req) -> crow::response {
+                // Test method called by user.
+                if(req.method != crow::HTTPMethod::Get) {
+                    // Wrong method sent.
+                    return crow::response(405);
+                }
+                // Next steps
+                try {
+                    // Open connection with pgbouncer
+                    pqxx::connection conn("dbname=mydatabase user=myuser password=mypassword host=running_bouncer port=6432");
+                    pqxx::work txn(conn);
+                    // Create our SQL query
+                    pqxx::result res = txn.exec("SELECT * FROM employees ORDER BY employee_id;");
+                    // Transact
+                    txn.commit();
+                    // Create JSON
+                    crow::json::wvalue build_json_result = build_system_json(res);
+                    // Dump JSON out for endpoint.
+                    return crow::response(json_res.dump());
+                } catch (const std::exception& e) {
+                    // May check for more issues during development by adding + e.what()
+                    return crow::response(500, std::string("Error!"));
+                }
+        });
+        // Put an update on an employee
+        CROW_ROUTE(app, "/update").methods("PUT"_method)([](const crow::request &req) -> crow::response {
+                // Test method called by user.
+                if(req.method != crow::HTTPMethod::Get) {
+                    // Wrong method sent.
+                    return crow::response(405);
+                }
+                // Next steps
+                try {
+                    // Open connection with pgbouncer
+                    pqxx::connection conn("dbname=mydatabase user=myuser password=mypassword host=running_bouncer port=6432");
+                    pqxx::work txn(conn);
+                    // Create our SQL query
+                    pqxx::result res = txn.exec("UPDATE employees SET vehicle = $3 WHERE first_name = $1 AND last_name = $2;");
+                    // Transact
+                    txn.commit();
+                    // Create JSON
+                    crow::json::wvalue build_json_result = build_system_json(res);
+                    // Dump JSON out for endpoint.
+                    return crow::response(json_res.dump());
+                } catch (const std::exception& e) {
+                    // May check for more issues during development by adding + e.what()
+                    return crow::response(500, std::string("Error!"));
+                }
+        });
+        // Delete an employee
+        CROW_ROUTE(app, "/fire").methods("DELETE"_method)([](const crow::request &req) -> crow::response {
+                // Test method called by user.
+                if(req.method != crow::HTTPMethod::Delete) {
+                    // Wrong method sent.
+                    return crow::response(405);
+                }
+                // Next steps
+                try {
+                    // Open connection with pgbouncer
+                    pqxx::connection conn("dbname=mydatabase user=myuser password=mypassword host=running_bouncer port=6432");
+                    pqxx::work txn(conn);
+                    // Check for the parameters by initializing a pointer for the url sent.
+                    const char* first_parameter = req.url_params.get("first");
+                    const char* last_parameter = req.url_params.get("last");
+                    // Check the parameters every time we are called up.
+                    if(first_paramater && last_parameter) {
+                                // Parse our search value name parameter.
+                                std::string searchPattern = "%" + std::string(name_parameter) + "%";
+                                // Prepare SQL call.
+                                res = txn.exec_params("DELETE FROM employees"
+                                        " WHERE first_name ILIKE $1 AND last_name ILIKE $2;",
+                                        searchPattern
+                                        );
+                    } else {
+                            return crow::reponse(400, std::string("Check input!"));
+                    }
+                    pqxx::result res = txn.exec_parms("DELETE FROM employees WHERE first_name = $1 AND last_name = $2;");
+                    // Transact
+                    txn.commit();
+                    // Create JSON
+                    crow::json::wvalue build_json_result = build_system_json(res);
+                    // Dump JSON out for endpoint.
+                    return crow::response(json_res.dump());
+                } catch (const std::exception& e) {
+                    // May check for more issues during development by adding + e.what()
+                    return crow::response(500, std::string("Error!"));
+                }
+        });
+        // Get all employees
+        CROW_ROUTE(app, "/employees").methods("GET"_method)([](const crow::request &req) -> crow::response {
+                // Test method called by user.
+                if(req.method != crow::HTTPMethod::Get) {
+                    // Wrong method sent.
+                    return crow::response(405);
+                }
+                // Next steps
+                try {
+                    // Open connection with pgbouncer
+                    pqxx::connection conn("dbname=mydatabase user=myuser password=mypassword host=running_bouncer port=6432");
+                    pqxx::work txn(conn);
+                    // Create our SQL query
+                    pqxx::result res = txn.exec("SELECT * FROM employees ORDER BY employee_id;");
+                    // Transact
+                    txn.commit();
+                    // Create JSON
+                    crow::json::wvalue build_json_result = build_system_json(res);
+                    // Dump JSON out for endpoint.
+                    return crow::response(json_res.dump());
+                } catch (const std::exception& e) {
+                    // May check for more issues during development by adding + e.what()
+                    return crow::response(500, std::string("Error!"));
+                }
+        });
+        // Force address and port
+        app.bindaddr("0.0.0.0").port(8080).multithreaded().run();
 }
