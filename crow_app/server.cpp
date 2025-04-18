@@ -7,12 +7,12 @@ crow::json::wvalue build_json_result(const pqxx::result& res) {
         // Construct JSON
         for (const auto& row : res) {
                 // Construct a crow::json::wvalue to parse our database results.
-                crow::json::wvalue employee;
-                employee["first_name"] = row["first_name"].as<std::string>();
-                employee["last_name"] = row["last_name"].as<std::string>();
-                employee["vehicle"] = row["vehicle"].as<std::string>();
+                crow::json::wvalue employees;
+                employees["first_name"] = row["first_name"].as<std::string>();
+                employees["last_name"] = row["last_name"].as<std::string>();
+                employees["vehicle"] = row["vehicle"].as<std::string>();
                 // Push itoms onto the vector using push back.
-                temp_array.push_back(std::move(employee));
+                temp_array.push_back(std::move(employees));
         }
         // Now construct a crow::json:wvalue from the vector.
         crow::json::wvalue json_result(temp_array);
