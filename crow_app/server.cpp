@@ -88,7 +88,7 @@ int main() {
                     const char* first_parameter = req.url_params.get("first");
                     const char* last_parameter = req.url_params.get("last");
                     // Check the parameters every time we are called up.
-                    if(first_paramater && last_parameter) {
+                    if(first_parameter && last_parameter) {
                                 // Parse our search value name parameter.
                                 std::string first_pattern = "%" + std::string(first_parameter) + "%";
                                 std::string last_pattern = "%" + std::string(last_parameter) + "%";
@@ -101,13 +101,10 @@ int main() {
                     } else {
                             return crow::reponse(400, std::string("Check input!"));
                     }
-                    pqxx::result res = txn.exec_parms("DELETE FROM employees WHERE first_name = $1 AND last_name = $2;");
                     // Transact
                     txn.commit();
-                    // Create JSON
-                    crow::json::wvalue build_json_result = build_system_json(res);
                     // Dump JSON out for endpoint.
-                    return crow::response(json_res.dump());
+                    return crow::response(200, std::string("Deleted!"));
                 } catch (const std::exception& e) {
                     // May check for more issues during development by adding + e.what()
                     return crow::response(500, std::string("Error!"));
