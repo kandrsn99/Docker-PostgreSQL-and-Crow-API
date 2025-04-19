@@ -59,11 +59,11 @@
     		</p>
 		<pre>
     		<code>
-			    curl -X GET https://alpha-strike.space/api/health
+			    curl -X GET https://your_domain.com/api/employees
     		</code>
 		</pre>
     		<p> 
-		   As long as the server is running, you should recieve a status code of 200 which respresents that everything is 'OKAY' so to speak. <br>
+		   As long as the server is running, you should recieve a status code of 200 which respresents that everything is 'OKAY' so to speak with a list of employees in the database. <br>
 		   You will see many status codes, whether interacting with an API or just loading a URL. The most important codes are the following
     		</p>
     		<ul>
@@ -79,26 +79,31 @@
                     Endpoints
               </header>
         	<p>
-		    We shall list each endpoint and the corresponing command to retrieve information with our basis library <a href="https://curl.se/docs/">cURL<a>. Keep in mind our base url is <strong>http://localhost/api/</strong> or whatever you chose for your reference.                 
+		    We shall list each endpoint and the corresponing command to retrieve information with our basis library <a href="https://curl.se/docs/">cURL<a>. Keep in mind our base url is <strong>https://your_domain.com/api/</strong> or whatever you chose for your reference.                 
         	</p>
-        	<p><b>/health</b> return the health of server<br>
+        	<p><b>/employees</b> get the list of employees in the database.<br>
 		<pre>
 		<code>
-			curl -X GET https://alpha-strike.space/api/health
+			curl -X GET https://your_domain.com/api/employees
         	</code>
 		</pre>
         	<br>
-        	<b>/incident</b> return all incidents, or by victim/killer name and system.<br>
-		<b>/gate</b> return all gates, or by name and system.<br>
+        	<b>/hire</b> post a new employee with parameters first, last, and vehicle to the database.<br>
 		<pre>
 		<code>
-			curl -X POST https://alpha-strike.space/api/gate?name=STRING_HERE
+			curl -X POST https://your_domain.com/api/hire
         	</code>
 		</pre>
-		<b>/location</b> return all systems, or by id and name.<br>
+		<b>/fire</b> delete an employee with parameters first, last in the database.<br>
 		<pre>
 		<code>
-		        curl -X GET https://alpha-strike.space/api/location
+			curl -X DELETE https://your_domain.com/api/fire
+        	</code>
+		</pre>
+		<b>/update</b> put to update an employee vehicle with parameters first, last, and vehicle to the database.<br>
+		<pre>
+		<code>
+		        curl -X PUT https://your_domain.com/api/update
         	</code>
 		</pre>
         </section>
@@ -107,7 +112,7 @@
                     Development
                 </header>
                 <p>
-		    I shamelessly promote myself, Professor Anderson, for developing many of the web development projects so that people may learn some basics of interacting with APIs, docker, and curl library. Feel free to always create an issue, fork this project, or ask to contribute to a project. Good luck, have fun!
+		    I shamelessly promote myself, Professor Killian Anderson, for developing many of the web development projects so that people may learn some basics of interacting with APIs, docker, and curl library. Feel free to always create an issue, fork this <a href="https://github.com/kandrsn99/Docker-PostgreSQL-and-Crow-API/tree/main">project<a>, or ask to contribute to a project. Good luck, have fun!
                 </p>
                 <ul>
                     <li><a href="https://isocpp.org/std/the-standard">Modern C++ Standards<a>, <a href="https://www.postgresql.org/">PostgreSQL<a></li>
