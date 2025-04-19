@@ -34,12 +34,11 @@ int main() {
                     // Open connection with pgbouncer
                     pqxx::connection conn("dbname=mydatabase user=myuser password=mypassword host=running_bouncer port=6432");
                     pqxx::work txn(conn);
-                    // Initialize the results.
-                    pqxx::result res;
                     // Check for the parameters by initializing a pointer for the url sent.
-                    const char* first_parameter = req.url_params.get("first");
-                    const char* last_parameter = req.url_params.get("last");
-                    const char* vehicle_parameter = req.url_params.get("vehicle");
+                    // Note : "" part is not necessary, it just prevents exceptions being thrown for missing parameters.
+                    const char* first_parameter = req.url_params.get("first") : "";
+                    const char* last_parameter = req.url_params.get("last") : "";
+                    const char* vehicle_parameter = req.url_params.get("vehicle") : "";
                     // Check the parameters every time we are called up.
                     if(first_parameter && last_parameter && vehicle_parameter) {
                                 // Parse our search value name parameter.
@@ -47,7 +46,7 @@ int main() {
                                 std::string last_pattern = "%" + std::string(last_parameter) + "%";
                                 std::string vehicle_pattern = "%" + std::string(vehicle_parameter) + "%";
                                 // Prepare SQL call.
-                                res = txn.exec_params("INSERT INTO employees"
+                                txn.exec_params("INSERT INTO employees"
                                         " (first_name, last_name, vehicle)"
                                         " VALUES first_name ILIKE $1, last_name ILIKE $2, vehicle ILIKE $3;",
                                         first_pattern,
@@ -80,12 +79,11 @@ int main() {
                     // Open connection with pgbouncer
                     pqxx::connection conn("dbname=mydatabase user=myuser password=mypassword host=running_bouncer port=6432");
                     pqxx::work txn(conn);
-                    // Initialize the results.
-                    pqxx::result res;
                     // Check for the parameters by initializing a pointer for the url sent.
-                    const char* first_parameter = req.url_params.get("first");
-                    const char* last_parameter = req.url_params.get("last");
-                    const char* vehicle_parameter = req.url_params.get("vehicle");
+                    // Note : "" part is not necessary, it just prevents exceptions being thrown for missing parameters.
+                    const char* first_parameter = req.url_params.get("first") : "";
+                    const char* last_parameter = req.url_params.get("last") : "";
+                    const char* vehicle_parameter = req.url_params.get("vehicle") : "";
                     // Check the parameters every time we are called up.
                     if(first_parameter && last_parameter && vehicle_parameter) {
                                 // Parse our search value name parameter.
@@ -93,7 +91,7 @@ int main() {
                                 std::string last_pattern = "%" + std::string(last_parameter) + "%";
                                 std::string vehicle_pattern = "%" + std::string(vehicle_parameter) + "%";
                                 // Prepare SQL call.
-                                res = txn.exec_params("UPDATE employees"
+                                txn.exec_params("UPDATE employees"
                                         " SET vehicle ILIKE $1"
                                         " WHERE first_name ILIKE $2 AND last_name ILIKE $3;",
                                         vehicle_pattern,
@@ -124,18 +122,17 @@ int main() {
                     // Open connection with pgbouncer
                     pqxx::connection conn("dbname=mydatabase user=myuser password=mypassword host=running_bouncer port=6432");
                     pqxx::work txn(conn);
-                    // Initialize the results.
-                    pqxx::result res;
                     // Check for the parameters by initializing a pointer for the url sent.
-                    const char* first_parameter = req.url_params.get("first");
-                    const char* last_parameter = req.url_params.get("last");
+                    // Note : "" part is not necessary, it just prevents exceptions being thrown for missing parameters.
+                    const char* first_parameter = req.url_params.get("first") : "";
+                    const char* last_parameter = req.url_params.get("last") : "";
                     // Check the parameters every time we are called up.
                     if(first_parameter && last_parameter) {
                                 // Parse our search value name parameter.
                                 std::string first_pattern = "%" + std::string(first_parameter) + "%";
                                 std::string last_pattern = "%" + std::string(last_parameter) + "%";
                                 // Prepare SQL call.
-                                res = txn.exec_params("DELETE FROM employees"
+                                txn.exec_params("DELETE FROM employees"
                                         " WHERE first_name ILIKE $1 AND last_name ILIKE $2;",
                                         first_pattern,
                                         last_pattern
