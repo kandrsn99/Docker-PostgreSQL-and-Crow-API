@@ -37,6 +37,13 @@ Now, we may mosey into the running container and run commands in the PostgreSQL 
 > docker exec -it running_postgresql bash\
 > psql -U POSTGRES_USER (environment variable reference) POSTGRES_DB (environment variable reference)
 
+You must retrieve the hashed password once inside the container for your database if you choose to use pgbouncer for pooling your connections instead of directly connecting to the postgresql database. A modern instance of postgresql will use scram-sha-256 for hashing and we will need it for pgbouncer.ini through the userlist.txt file. You will find this in the bouncer_app directory. Subsequently, inside your postgresql container you will run the following commands.
+
+> psql -U your_user_name your_db_name \
+> SELECT usename, passwd FROM pg_shadow;
+
+You will copy and paste that to your userlist.txt file for the pgbouncer.ini for booting up your connection pool.
+
 Please note that you must enter the running container if you wish to change the port with which the PostgreSQL environment will run.
 > docker exec -it running_postgresql bash\
 > cd /var/lib/postgresql/data
@@ -53,13 +60,15 @@ Before we start the Crow API, we need the host name or internet protocol address
 
 > docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' running_postgresql
 
-Now, that we have the address we shall use it to connect the Crow API to the database by modifying the script in /crow_app/ and using 'nano' or any other text editor to change the appropriately labeled variables when needed. Remember to add your secure socket layer certificates and edit the nginx.conf file in the appropriate directories before spooling up the rest of your containers.
+Now, that we have the address we shall use it to connect the Crow API to the database or through pgbouncer by modifying the script in /crow_app/ and using 'nano' or any other text editor to change the appropriately labeled variables when needed. Remember to add your secure socket layer certificates and edit the nginx.conf file in the appropriate directories before spooling up the rest of your containers.
 
 Do note that you must retrieve an SSL (secure socket layer) certificate to have HTTPs working for your domain name. The NGINX configuration file is meant to be easy to follow and understand. Read it and make sure the certificates are stored in the correct locations with the proper naming schema for NGINX. An easy way to create SSL certificate may be done with openSSL, https://openssl.org/, from the command line or otherwise downloaded from the DNS provider. 
 
 It is highly recommended that you use Cloudflare as they are the leading provider of a register for hosting a DNS. You may review their documentation here https://developers.cloudflare.com/learning-paths/get-started/ at your leisure.
 
-And of course, we spool both containers up for nginx and plumber proxies
+And of course, we spool both containers up for pgbouncer, nginx, and crow proxies
+> docker compose build pg_bouncer \
+> docker compose up pg_bouncer - d \
 > docker compose build crow_proxy\
 > docker compose up crow_proxy -d\
 > docker compose build nginx_proxy\
