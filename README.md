@@ -60,8 +60,8 @@ Do note that you must retrieve an SSL (secure socket layer) certificate to have 
 It is highly recommended that you use Cloudflare as they are the leading provider of a register for hosting a DNS. You may review their documentation here https://developers.cloudflare.com/learning-paths/get-started/ at your leisure.
 
 And of course, we spool both containers up for nginx and plumber proxies
-> docker compose build plumber_proxy\
-> docker compose up plumber_proxy -d\
+> docker compose build crow_proxy\
+> docker compose up crow_proxy -d\
 > docker compose build nginx_proxy\
 > docker compose up nginx_proxy -d
 
