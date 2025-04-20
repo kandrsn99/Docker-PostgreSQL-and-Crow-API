@@ -52,9 +52,7 @@ int main() {
                                         first_pattern,
                                         last_pattern,
                                         vehicle_pattern
-                                        );
-                            INSERT INTO employees (first_name, last_name, vehicle) VALUES ($1, $2, $3);
-                            
+                                        );                            
                     } else {
                             return crow::reponse(400, std::string("Check input!"));
                     }
