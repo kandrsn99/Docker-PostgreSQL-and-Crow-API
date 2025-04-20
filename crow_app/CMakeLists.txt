@@ -50,7 +50,6 @@ add_executable(server server.cpp)
 # Make sure to include the directories so that we may find crow.h (your header) in the server.cpp file.
 # This is the solution to a problem with docker environments for finding the crow header.
 target_include_directories(server PRIVATE ${crow_SOURCE_DIR}/include)
-#target_link_libraries(server PRIVATE asio::asio)
 # Thread support for crow (multithreading).
 find_package(Threads REQUIRED)
 # Target libraries during the build
