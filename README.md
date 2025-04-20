@@ -66,11 +66,11 @@ Do note that you must retrieve an SSL (secure socket layer) certificate to have 
 
 It is highly recommended that you use Cloudflare as they are the leading provider of a register for hosting a DNS. You may review their documentation here https://developers.cloudflare.com/learning-paths/get-started/ at your leisure.
 
-And of course, we spool both containers up for pgbouncer, nginx, and crow proxies
+And of course, we spool both containers up for crow proxies, pgbouncer, and nginx proxy
+> docker compose build crow_proxy \
+> docker compose up crow_proxy -d \
 > docker compose build pg_bouncer \
 > docker compose up pg_bouncer - d \
-> docker compose build crow_proxy\
-> docker compose up crow_proxy -d\
 > docker compose build nginx_proxy\
 > docker compose up nginx_proxy -d
 
