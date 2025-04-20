@@ -18,7 +18,7 @@ Any Operating System utilizing 'DNF' package manager
 > sudo dnf install git
 
 Next, utilize the git function on your local machine command line interface to download this repository.
-> git clone https://github.com/kandrsn99/Docker-PostgreSQL-and-Plumber-API.git
+> git clone https://github.com/kandrsn99/Docker-PostgreSQL-and-Crow-API.git
 
 Subsequently, change into the directory containing your downloaded repository. 
 > cd 'name of file-path'
