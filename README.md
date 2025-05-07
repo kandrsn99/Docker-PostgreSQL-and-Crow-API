@@ -1,4 +1,4 @@
-# Docker-PostgreSQL-and-Crow
+# Docker-PostgreSQL-and-Crow-Framework
 
 This is a sample of a PostgreSQL database that is launchable with Docker. Docker makes it easy to deploy executables on a server host with a web framework ontop of our PostgreSQL database, such as those with Crow Application Programmer Interface (API) Framework in C++ demonstrating a RESTful architecture for an API with NGINX for load balancing and serving a static documentation page. You may read more about Crow, https://crowcpp.org/master/, for documentation or benchmarking statistics.
 
