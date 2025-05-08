@@ -75,5 +75,3 @@ And of course, we spool both containers up for crow proxies, pgbouncer, and ngin
 > docker compose up nginx_proxy -d
 
 You may test your API on https://your_domain.com/api/documentation or http://address/api/documentation at your discretion.
-
-You may read about the official PostgreSQL docker image documentation here https://hub.docker.com/_/postgres/ and the official rocker image https://rocker-project.org/images/versioned/rstudio.html which was modified for this repository.
