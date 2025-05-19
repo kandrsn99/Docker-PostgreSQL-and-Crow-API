@@ -47,15 +47,13 @@ int main() {
                                 std::string last_pattern = "%" + std::string(last_parameter) + "%";
                                 std::string vehicle_pattern = "%" + std::string(vehicle_parameter) + "%";
                                 // Prepare SQL call.
-                                txn.exec_params("INSERT INTO employees"
-                                        " (first_name, last_name, vehicle)"
-                                        " VALUES first_name ILIKE $1, last_name ILIKE $2, vehicle ILIKE $3;",
-                                        first_pattern,
-                                        last_pattern,
-                                        vehicle_pattern
+                                txn.exec_params("INSERT INTO employees (first_name, last_name, vehicle) VALUES ($1, $2, $3);",
+                                                first_parameter,
+                                                last_parameter,
+                                                vehicle_parameter
                                         );                            
                     } else {
-                            return crow::reponse(400, std::string("Check input!"));
+                            return crow::response(400, std::string("Check input!"));
                     }
                     // Transact
                     txn.commit();
@@ -90,15 +88,13 @@ int main() {
                                 std::string last_pattern = "%" + std::string(last_parameter) + "%";
                                 std::string vehicle_pattern = "%" + std::string(vehicle_parameter) + "%";
                                 // Prepare SQL call.
-                                txn.exec_params("UPDATE employees"
-                                        " SET vehicle ILIKE $1"
-                                        " WHERE first_name ILIKE $2 AND last_name ILIKE $3;",
-                                        vehicle_pattern,
-                                        first_pattern,
-                                        last_pattern
+                                txn.exec_params("UPDATE employees SET vehicle=$1 WHERE first_name ILIKE $2 AND last_name ILIKE $3;",
+                                                vehicle_parameter,
+                                                first_pattern,
+                                                last_pattern
                                         );
                     } else {
-                            return crow::reponse(400, std::string("Check input!"));
+                            return crow::response(400, std::string("Check input!"));
                     }
                     // Transact
                     txn.commit();
@@ -131,13 +127,12 @@ int main() {
                                 std::string first_pattern = "%" + std::string(first_parameter) + "%";
                                 std::string last_pattern = "%" + std::string(last_parameter) + "%";
                                 // Prepare SQL call.
-                                txn.exec_params("DELETE FROM employees"
-                                        " WHERE first_name ILIKE $1 AND last_name ILIKE $2;",
-                                        first_pattern,
-                                        last_pattern
+                                txn.exec_params("DELETE FROM employees WHERE first_name ILIKE $1 AND last_name ILIKE $2;",
+                                                first_pattern,
+                                                last_pattern
                                         );
                     } else {
-                            return crow::reponse(400, std::string("Check input!"));
+                            return crow::response(400, std::string("Check input!"));
                     }
                     // Transact
                     txn.commit();
@@ -159,7 +154,7 @@ int main() {
                 try {
                     // Open connection with pgbouncer
                     pqxx::connection conn("dbname=mydatabase user=myuser password=mypassword host=running_bouncer port=6432");
-                    pqxx::work txn(conn);
+                    pqxx::read_transaction txn(conn);
                     // Create our SQL query
                     pqxx::result res = txn.exec("SELECT * FROM employees ORDER BY employee_id;");
                     // Transact
